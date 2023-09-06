@@ -38,3 +38,7 @@ java -jar pepk.jar --keystore=my-app.jks --alias=my-app-alias --output=my-app.zi
 ```
 
 После того как google.console примет ключ, можно заливать подписанный файл app-release.aab на проверку
+
+Примечание:
+Файл encryption_public_key.pem вы можете скачать в разделе **Разрешить Google Play управлять вашим ключом подписи приложения** в google.console
+Там же дана ссылка на файл pepk.jar но этот файл с ошибкой, в этом примере правильный файл
