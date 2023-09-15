@@ -1,29 +1,34 @@
 
-# cordova-playmarket-instruction
+# Инструкция по сборке Cordova для плеймаркета или RuStore
 
-собрать релиз apk
+Добавить в конфиг Cordova config.xml
+```
+<preference name="AndroidLaunchMode" value="singleTask" />
+```
+
+сборка apk (для RuStore)
 ```
 cordova build android --release -- --packageType=apk
 ```
 
-собрать релиз bandle
+сборка bandle (для PlayMarket)
 ```
 cordova build android --release -- --packageType=bandle
 ```
 
 Создать ключ чтобы подписать конкретное приложение
 ```
-keytool -genkeypair -v -keystore my-app.jks -alias my-app-alias -keyalg RSA -keysize 2048 -validity 10000
+keytool -genkeypair -v -keystore myApp.jks -alias myApp -keyalg RSA -keysize 2048 -validity 10000
 ```
 
-Подписать бандл
+Подписать .aab (бандл)
 ```
-jarsigner -verbose -sigalg SHA1withRSA -digestalg SHA1 -keystore my-app.jks platforms/android/app/build/outputs/bundle/release/app-release.aab my-app-alias
+jarsigner -verbose -sigalg SHA1withRSA -digestalg SHA1 -keystore myApp.jks platforms/android/app/build/outputs/bundle/release/app-release.aab myApp
 ```
 
-Подписать apk (при необходимости)
+Подписать .apk
 ```
-jarsigner -verbose -sigalg SHA1withRSA -digestalg SHA1 -my-app.jks platforms/android/app/build/outputs/apk/release/app-release-unsigned.apk my-app-alias
+jarsigner -verbose -sigalg SHA1withRSA -digestalg SHA1 myApp.jks platforms/android/app/build/outputs/apk/release/app-release-unsigned.apk myApp
 ```
 
 Оптимизировать apk (app-release-signed.apk можно будет заливать куда нужно)
@@ -31,10 +36,11 @@ jarsigner -verbose -sigalg SHA1withRSA -digestalg SHA1 -my-app.jks platforms/and
 zipalign -v 4 platforms/android/app/build/outputs/apk/release/app-release-unsigned.apk platforms/android/app/build/outputs/apk/release/app-release-signed.apk
 ```
 
+Для PlayMarket
 
 Качнуть с google открытый ключ encryption_public_key.pem (в консоли будет ссылка) и сделать my-app.zip который потом загрузить в google.console
 ```
-java -jar pepk.jar --keystore=my-app.jks --alias=my-app-alias --output=my-app.zip --include-cert --rsa-aes-encryption --encryption-key-path=encryption_public_key.pem
+java -jar pepk.jar --keystore=myApp.jks --alias=mmyApp --output=myApp.zip --include-cert --rsa-aes-encryption --encryption-key-path=encryption_public_key.pem
 ```
 
 После того как google.console примет ключ, можно заливать подписанный файл app-release.aab на проверку
