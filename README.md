@@ -1,7 +1,7 @@
 
 # Инструкция по сборке Cordova для плеймаркета или RuStore
 
-Добавить в конфиг Cordova config.xml
+Добавить в конфиг Cordova config.xml (можно и не добавлять)
 ```
 <preference name="AndroidLaunchMode" value="singleTask" />
 ```
@@ -28,7 +28,14 @@ jarsigner -verbose -sigalg SHA1withRSA -digestalg SHA1 -keystore myApp.jks platf
 
 Подписать .apk
 ```
-jarsigner -verbose -sigalg SHA1withRSA -digestalg SHA1 myApp.jks platforms/android/app/build/outputs/apk/release/app-release-unsigned.apk myApp
+jarsigner -verbose -sigalg SHA1withRSA -digestalg SHA1 -keystore myApp.jks platforms/android/app/build/outputs/apk/release/app-release-unsigned.apk myApp
+
+```
+
+Можно сделать ключ 256
+```
+jarsigner -verbose -sigalg SHA256withRSA -digestalg SHA-256 -keystore myApp.jks platforms/android/app/build/outputs/apk/release/app-release-unsigned.apk myApp
+
 ```
 
 Оптимизировать apk (app-release-signed.apk можно будет заливать куда нужно)
